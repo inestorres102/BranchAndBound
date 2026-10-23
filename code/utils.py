@@ -567,6 +567,12 @@ class PriorityQueue(Queue):
         return len(self.A)
 
 
+def astar_graph_search(problem):
+    """Búsqueda de Ramificación y Acotación con Subestimación (A*).
+    Ordena la lista abierta por f(n) = g(n) + h(n)."""
+    return graph_search(problem, PriorityQueue(f=lambda node: node.path_cost + problem.h(node)))
+
+
 
 ## Fig: The idea is we can define things like Fig[3,10] later.
 ## Alas, it is Fig[3,10] not Fig[3.10], because that would be the same as Fig[3.1]
