@@ -93,20 +93,25 @@ class Node:
 # ______________________________________________________________________________
 ## Uninformed Search algorithms
 
-def graph_search(problem, fringe):
+def graph_search(problem, manager):
     """Search through the successors of a problem to find a goal.
     The argument fringe should be an empty queue.
     If two paths reach a state, only use the best one. [Fig. 3.18]"""
     closed = {}
-    fringe.append(Node(problem.initial))
-    while fringe:
-        node = fringe.pop()
+    manager.append(Node(problem.initial))
+    expanded_nodes = 0
+    
+    while manager:
+        node = manager.pop()
         if problem.goal_test(node.state):
-            return node
-        if node.state not in closed:
-            closed[node.state] = True
-            fringe.extend(node.expand(problem))
-    return None
+            return node, expanded_nodes
+        
+        if node.state not in closed or node.path_cost < closed[node.state]:
+            closed[node.state] = node.path_cost
+            expanded_nodes += 1
+            manager.extend(node.expand(problem))
+    
+    return None, expanded_nodes
 
 
 def breadth_first_graph_search(problem):
@@ -117,6 +122,11 @@ def breadth_first_graph_search(problem):
 def depth_first_graph_search(problem):
     """Search the deepest nodes in the search tree first. [p 74]"""
     return graph_search(problem, Stack())
+
+
+def branch_and_bound_graph_search(problem):
+    """Ramificación y acotación ordenando por el coste acumulado g(n)."""
+    return graph_search(problem, PriorityQueue(f=lambda node: node.path_cost))
 
 
 
