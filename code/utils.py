@@ -3,6 +3,7 @@
 # Simple Data Structures: infinity, Dict, Struct
 
 infinity = 1.0e400
+import math
 
 
 def Dict(**entries):
