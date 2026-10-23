@@ -128,6 +128,11 @@ def branch_and_bound_graph_search(problem):
     """Ramificación y acotación ordenando por el coste acumulado g(n)."""
     return graph_search(problem, PriorityQueue(f=lambda node: node.path_cost))
 
+def astar_graph_search(problem):
+    """Búsqueda de Ramificación y Acotación con Subestimación (A*).
+    Ordena la lista abierta por f(n) = g(n) + h(n)."""
+    return graph_search(problem, PriorityQueue(f=lambda node: node.path_cost + problem.h(node)))
+
 
 
 # _____________________________________________________________________________
@@ -272,3 +277,8 @@ class GPSProblem(Problem):
             return int(distance(locs[node.state], locs[self.goal]))
         else:
             return infinity
+
+def astar_graph_search(problem):
+    """Búsqueda de Ramificación y Acotación con Subestimación (A*).
+    Ordena la lista abierta por f(n) = g(n) + h(n)."""
+    return graph_search(problem, PriorityQueue(f=lambda node: node.path_cost + problem.h(node)))
