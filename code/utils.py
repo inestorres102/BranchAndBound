@@ -544,6 +544,29 @@ class FIFOQueue(Queue):
         return e
 
 
+class PriorityQueue(Queue):
+    """Cola de prioridad que ordena los nodos por su coste evaluado mediante sort().
+    Se ordena de mayor a menor para extraer el de menor coste con pop()."""
+
+    def __init__(self, f=lambda x: x.path_cost):
+        self.A = []
+        self.f = f
+
+    def append(self, item):
+        self.A.append(item)
+        self.A.sort(key=self.f, reverse=True) # extraemos los path cost de los objetos con lambda y luego ordenamos
+
+    def extend(self, items):
+        self.A.extend(items) # extraemos todos los nodos
+        self.A.sort(key=self.f, reverse=True)
+
+    def pop(self):
+        return self.A.pop()
+
+    def __len__(self):
+        return len(self.A)
+
+
 
 ## Fig: The idea is we can define things like Fig[3,10] later.
 ## Alas, it is Fig[3,10] not Fig[3.10], because that would be the same as Fig[3.1]
